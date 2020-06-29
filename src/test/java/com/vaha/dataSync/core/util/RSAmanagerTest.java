@@ -2,6 +2,7 @@ package com.vaha.dataSync.core.util;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import java.io.File;
 import java.security.InvalidKeyException;
 import java.security.PrivateKey;
 import java.security.PublicKey;
@@ -33,6 +34,11 @@ class RSAmanagerTest {
 
 	@AfterEach
 	void tearDown() throws Exception {
+		File filePub = new File("PublicKey.txt");
+		File filePri = new File("PrivateKey.txt");
+		
+		filePub.delete();
+		filePri.delete();
 	}
 
 	@Test
