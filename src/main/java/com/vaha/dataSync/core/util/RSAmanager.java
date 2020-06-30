@@ -22,12 +22,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class RSAmanager {
-	
+
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
-	
+
 	public PublicKey serverMakeKey() {
 		logger.debug("Server Start");
-		
+
 		// 서버에서 공개키, 개인키 생성
 		PublicKey publicKey = null;
 		PrivateKey privateKey = null;
@@ -45,11 +45,13 @@ public class RSAmanager {
 			KeyFactory keyFactory1 = KeyFactory.getInstance("RSA");
 			RSAPublicKeySpec rsaPublicKeySpec = keyFactory1.getKeySpec(publicKey, RSAPublicKeySpec.class);
 			RSAPrivateKeySpec rsaPrivateKeySpec = keyFactory1.getKeySpec(privateKey, RSAPrivateKeySpec.class);
-			
-			logger.debug("Public  key modulus : " + rsaPublicKeySpec.getModulus());
-			logger.debug("Public  key exponent: " + rsaPublicKeySpec.getPublicExponent());
-			logger.debug("Private key modulus : " + rsaPrivateKeySpec.getModulus());
-			logger.debug("Private key exponent: " + rsaPrivateKeySpec.getPrivateExponent());
+
+			if (logger.isDebugEnabled()) {
+				logger.debug("Public  key modulus : {}", rsaPublicKeySpec.getModulus());
+				logger.debug("Public  key exponent: {}", rsaPublicKeySpec.getPublicExponent());
+				logger.debug("Private key modulus : {}", rsaPrivateKeySpec.getModulus());
+				logger.debug("Private key exponent: {}", rsaPrivateKeySpec.getPrivateExponent());
+			}
 		} catch (NoSuchAlgorithmException e) {
 			e.printStackTrace();
 		} catch (InvalidKeySpecException e) {
@@ -77,20 +79,22 @@ public class RSAmanager {
 
 		return publicKey;
 	}
-	
+
 	public PrivateKey clientUseKey() {
 		PrivateKey privateKey = null;
-		
+
 		// 클라이언트에서 개인키로 조회
 		logger.debug("Client Start");
-		
+
 		String sPrivateKey = null;
 		BufferedReader brPrivateKey = null;
-		
+
 		try {
 			brPrivateKey = new BufferedReader(new FileReader("PrivateKey.txt"));
 			sPrivateKey = brPrivateKey.readLine(); // First Line Read
-			logger.debug("Private Key Read");
+			if(logger.isDebugEnabled()) {
+				logger.debug("Private Key Read : {}", sPrivateKey);
+			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		} finally {
@@ -113,7 +117,12 @@ public class RSAmanager {
 		} catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
 			e.printStackTrace();
 		}
-		
+
 		return privateKey;
+	}
+
+	public static void main(String[] ages) {
+		RSAmanager rsaMansger = new RSAmanager();
+		rsaMansger.serverMakeKey();
 	}
 }

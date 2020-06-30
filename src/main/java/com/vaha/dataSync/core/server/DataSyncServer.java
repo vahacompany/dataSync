@@ -16,7 +16,7 @@ import io.netty.channel.socket.nio.NioServerSocketChannel;
 @Component
 public final class DataSyncServer {
 
-	Logger logger = LoggerFactory.getLogger(DataSyncServer.class);
+	Logger logger = LoggerFactory.getLogger(this.getClass());
 
 	@Value("${boss.thread.count}")
 	private int boss;
@@ -45,7 +45,7 @@ public final class DataSyncServer {
 					.childHandler(new DataSyncInitializer());
 
 			if (logger.isDebugEnabled()) {
-				logger.debug("address === " + address.getPort());
+				logger.debug("Service Port : {} ", address.getPort());
 			}
 			
 			ChannelFuture future = b.bind(address).sync();
