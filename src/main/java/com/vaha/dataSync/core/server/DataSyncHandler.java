@@ -41,8 +41,12 @@ public class DataSyncHandler extends SimpleChannelInboundHandler<String> {
 		}
 
 		if (logger.isDebugEnabled()) {
-			logger.debug("TelnetServerHandler");
+			logger.debug("msg===> "+ request);
 		}
+		
+    	System.out.println(response);
+
+	    
 		// TelnetPipelineFactory에 지정된 StringEncoder클래스가 문자열을 버퍼로 변환해 주므로
 		// ChannelBuffer에 전송할 값을 복사하여 전송하지 않고 직접 문자열을 전송한다.
 		ChannelFuture future = ctx.write(response);
